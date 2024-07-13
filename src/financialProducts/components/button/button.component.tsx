@@ -5,6 +5,7 @@ type buttonProps = {
     variant: 'primary' | 'secondary',
     children: React.ReactNode,
     disabled?: boolean,
+    onClick?: ()=>void
 }
 
 export function Button({
@@ -12,6 +13,7 @@ export function Button({
     variant,
     children,
     disabled=false,
+    onClick,
 }: buttonProps) {
     return (
         <button
@@ -19,6 +21,7 @@ export function Button({
             type="button"
             className={`button ${variant}`}
             disabled={disabled}
+            onClick={onClick}
         >
             {children}
         </button>

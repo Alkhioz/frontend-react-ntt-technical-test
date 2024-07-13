@@ -2,7 +2,7 @@ import { FinancialProductContainer } from './financialProducts/financialProductC
 
 function App() {
   return (
-    <FinancialProductContainer />
+      <FinancialProductContainer />
   )
 }
 
