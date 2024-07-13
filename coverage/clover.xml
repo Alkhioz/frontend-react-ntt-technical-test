@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1720895675138" clover="3.2.0">
-  <project timestamp="1720895675138" name="All files">
+<coverage generated="1720900848373" clover="3.2.0">
+  <project timestamp="1720900848373" name="All files">
     <metrics statements="10" coveredstatements="10" conditionals="5" coveredconditionals="5" methods="2" coveredmethods="2" elements="17" coveredelements="17" complexity="0" loc="10" ncloc="10" packages="1" files="2" classes="2"/>
     <file name="addToDate.utility.ts" path="C:\Users\LENOVO\development_projects\interviews\ntt-data\ntt-data-technical-test\src\utilities\addToDate.utility.ts">
       <metrics statements="7" coveredstatements="7" conditionals="3" coveredconditionals="3" methods="1" coveredmethods="1"/>
