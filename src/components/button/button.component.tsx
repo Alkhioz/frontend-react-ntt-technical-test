@@ -16,9 +16,6 @@ export function Button({
             type="button"
             className={`button ${variant}`}
             disabled={disabled}
-            onClick={()=>{
-                console.log("hola mundo")
-            }}
         >
             {children}
         </button>

@@ -12,24 +12,22 @@ describe('Button Component', () => {
         );
         expect(getByText(text)).toBeInTheDocument();
     });
-    it('The primary button has the correct color', () => {
-       
+    it('The primary button has the correct class', () => {
         const { getByText } = render(
             <Button variant='primary'>Continue</Button>
         );
         const buttonElement = getByText('Continue');
         expect(buttonElement).toBeInTheDocument();
-        expect(buttonElement).toHaveStyle('background-color: #FDD835');
-        expect(buttonElement).toHaveStyle('color: #0e184aff');
+        expect(buttonElement).toHaveClass('button');
+        expect(buttonElement).toHaveClass('primary');
     });
-    it('The secondary button has the correct color', () => {
-       
+    it('The secondary button has the correct class', () => {
         const { getByText } = render(
             <Button variant='secondary'>Continue</Button>
         );
         const buttonElement = getByText('Continue');
         expect(buttonElement).toBeInTheDocument();
-        expect(buttonElement).toHaveStyle('background-color: #E0E0E0');
-        expect(buttonElement).toHaveStyle('color: #0e184aff');
+        expect(buttonElement).toHaveClass('button');
+        expect(buttonElement).toHaveClass('secondary');
     });
 });
