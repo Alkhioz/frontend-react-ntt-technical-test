@@ -5,7 +5,9 @@
  * @param {number} max - The maximun number of characters
  * @returns {boolean} 
  */
-export function minMaxLength(str: string, min: number, max: number) {
-    const strlen = str.length;
-    return strlen >= min && strlen <= max;
+export function minMaxLength(min: number, max: number) {
+    return function (str: string) {
+        const strlen = str.length;
+        return strlen >= min && strlen <= max;
+    }
 }
