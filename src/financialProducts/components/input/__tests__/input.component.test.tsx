@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, fireEvent } from '@testing-library/react';
 import { Input } from '../input.component';
-import { minMaxLength } from '../../../utilities/minMaxLength.utility';
+import { minMaxLength } from '../../../../utilities/minMaxLength.utility';
 
 describe('Input Component', () => {
   it('should show error for invalid ID (minMaxLength)', () => {

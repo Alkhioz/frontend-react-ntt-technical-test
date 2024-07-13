@@ -1,5 +1,5 @@
-import { Button } from "../components/button/button.component";
-import { Input } from "../components/input/input.component";
+import { Button } from "./components/button/button.component";
+import { Input } from "./components/input/input.component";
 import { minMaxLength } from "../utilities/minMaxLength.utility";
 
 export function FinancialProductContainer(){
