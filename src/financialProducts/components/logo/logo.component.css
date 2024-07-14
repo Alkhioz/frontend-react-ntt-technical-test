@@ -1,0 +1,11 @@
+.logo {
+    aspect-ratio: 1 / 1;
+    border-radius: 100%;
+    overflow: hidden;
+    background-color: var(--color-alternative-2);
+}
+
+.logoImage {
+    width: 100%;
+    object-fit: cover;
+}

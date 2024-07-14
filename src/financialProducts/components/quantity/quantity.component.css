@@ -1,0 +1,4 @@
+.quantity {
+    display: flex;
+    flex-wrap: wrap;
+}

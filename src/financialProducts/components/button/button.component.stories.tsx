@@ -27,12 +27,22 @@ const meta: Meta<typeof Button> = {
         variant: {
             options: ['primary', 'secondary'],
             control: {
-                type: 'radio',
+                type: 'select',
             }
         },
         children: {
             control: {
                 disable: true,
+            }
+        },
+        id : {
+            control: {
+                type: 'text'
+            }
+        },
+        disabled : {
+            control: {
+                type: 'boolean'
             }
         }
     },
@@ -44,14 +54,18 @@ type Story = StoryObj<typeof Button>;
 export const Primary: Story = {
     args: {
         variant: 'primary',
-        children: <>Primary</>
+        children: <>Primary</>,
+        disabled: false,
+        id: '',
     }
 };
 
 export const Secondary: Story = {
     args: {
         variant: 'secondary',
-        children: <>secondary</>
+        children: <>secondary</>,
+        disabled: false,
+        id: '',
     },
 };
 
@@ -60,6 +74,7 @@ export const PrimaryDisabled: Story = {
         variant: 'primary',
         children: <>Primary</>,
         disabled: true,
+        id: '',
     },
 };
 
@@ -68,5 +83,6 @@ export const SecondaryDisabled: Story = {
         variant: 'secondary',
         children: <>secondary</>,
         disabled: true,
+        id: '',
     },
 };
