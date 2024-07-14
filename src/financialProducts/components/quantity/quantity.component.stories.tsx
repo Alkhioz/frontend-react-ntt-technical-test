@@ -25,7 +25,7 @@ const meta: Meta<typeof Quantity> = {
     ],
     argTypes: {
         quantity: {
-            control: 'text',
+            control: 'number',
         },
     },
 };
