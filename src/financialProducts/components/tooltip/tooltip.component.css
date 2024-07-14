@@ -1,52 +1,35 @@
-.tooltip {
-    position: relative;
+.tooltipLogoContainer {
     display: inline-block;
-    user-select: none;
-}
-
-.tooltip .tooltipText {
-    visibility: hidden;
-    width: max-content;
-    background-color: var(--color-secondary);
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 10px;
-    position: absolute;
-    bottom: 125%;
-    left: 44%;
-    margin-left: -60px;
-    opacity: 0;
-    transition: opacity 0.3s;
-    border: 1px solid var(--color-alternative-2);
-    color: var(--color-alternative-2);
-}
-
-.tooltip .tooltipText::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 44%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: var(--color-alternative-2) transparent transparent transparent;
-}
-
-.tooltip:hover .tooltipText {
-    visibility: visible;
-    opacity: 1;
+    padding-left: .2rem;
 }
 
 .tooltipLogo {
-    background-color: var(--color-alternative);
-    width: 1rem;
-    height: 1rem;
-    padding: 1rem;
+    background-color: var(--color-alternative-2);
+    width: .6rem;
+    height: .6rem;
+    padding: .6rem;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bolder;
     color: white;
     border-radius: 100%;
+}
+
+[data-tooltip]::before {
+    font-weight: lighter;
+    background-color: var(--color-alternative-2);
+    padding: .5rem;
+    top: 12%;
+    position : absolute;
+    content : attr(data-tooltip);
+    opacity : 0;
+}
+
+[data-tooltip]:hover::before {
+    opacity : 1;
+}
+
+[data-tooltip]:not([data-tooltip-persistent])::before {
+    pointer-events: none;
 }

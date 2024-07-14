@@ -5,16 +5,7 @@ const meta: Meta<typeof Tooltip> = {
     component: Tooltip,
     decorators: [
         (Story) => (
-            <div style={{
-                height: '100%',
-                width: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                flexWrap: 'wrap',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '4rem',
-            }}>
+            <div>
                 <Story />
             </div>
         )

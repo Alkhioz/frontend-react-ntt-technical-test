@@ -1,15 +1,49 @@
 import { Button } from "../components/button/button.component";
 import { Header } from "../components/header/header.component";
+import { Tooltip } from "../components/tooltip/tooltip.component";
+import { FinancialProduct } from "../domain/financialProduct.entity";
 import { ThemedTableWithSearchLimitCard } from "./components/themedTable.component";
 import './listFinancialProducts.container.css';
 
 const theme = [
-    { displayName: 'ID', key: 'id' },
-    { displayName: 'Name', key: 'name' },
-    { displayName: 'Description', key: 'description' },
-    { displayName: 'Logo', key: 'logo' },
-    { displayName: 'Date Release', key: 'date_release' },
-    { displayName: 'Date Revision', key: 'date_revision' },
+    {
+        displayName: 'Logo',
+        key: 'logo'
+    },
+    {
+        displayName: 'Nombre del Producto',
+        key: 'name'
+    },
+    {
+        display: (
+            <div>
+                Descripción
+                <Tooltip message="Descripción" />
+            </div>
+        )
+        ,
+        render: (row: FinancialProduct) => <>{row.description}</>,
+    },
+    {
+        display: (
+            <div>
+                Fecha de liberación
+                <Tooltip message="Fecha de liberación" />
+            </div>
+        )
+        ,
+        render: (row: FinancialProduct) => <>{row.date_release}</>,
+    },
+    {
+        display: (
+            <div>
+                Fecha de reestructuración
+                <Tooltip message="Fecha de reestructuración" />
+            </div>
+        )
+        ,
+        render: (row: FinancialProduct) => <>{row.date_revision}</>,
+    },
 ];
 
 const data = [
