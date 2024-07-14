@@ -12,6 +12,7 @@ export default {
     '!src/**/*.d.ts',
     '!src/**/*.{test,spec}.{ts,tsx,js,jsx}',
     '!src/**/__tests__/**/*.{ts,tsx,js,jsx}',
+    '!src/**/*.{stories,story}.{ts,tsx,js,jsx}',
     '!src/App.tsx',
     '!src/main.tsx',
   ],

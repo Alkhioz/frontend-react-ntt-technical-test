@@ -47,4 +47,14 @@ describe('Modal Component Test', () => {
         expect(container.childNodes.length).toBe(0);
     });
 
+    
+    it('Doesnt render when modal_dom_element dom object doesnt exist', () => {
+        document.body.innerHTML = '';
+        const { container } = render(<Modal
+            message='Test message'
+            open={false}
+        />);
+        expect(container.childNodes.length).toBe(0);
+    });
+
 });
