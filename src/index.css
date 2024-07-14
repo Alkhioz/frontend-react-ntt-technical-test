@@ -1,17 +1,10 @@
 :root {
   --color-primary: #FDD835;
-  --color-secondary: #E0E0E0;
-  --color-secondary-light: #F2F2F2;
+  --color-secondary: #ebecf1;
+  --color-secondary-light: #f5f6fa;
   --color-alternative: #0e184aff;
+  --color-alternative-2: #6f6e74;
   --color-error: #cf3737;
-  /* --primary-background-color: #F2F2F2;
-  --primary-text-color: #002147;
-  --button-color: #FDD835;
-  --button-text-color: #FFFFFF;
-  --form-border-color: #D32F2F;
-  --gray-text-color: #757575;
-  --table-border-color: #E0E0E0;
-  --hover-active-button-color: #0D47A1; */
 }
 
 :root {

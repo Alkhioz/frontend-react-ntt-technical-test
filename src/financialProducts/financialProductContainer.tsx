@@ -14,7 +14,7 @@ export function FinancialProductContainer() {
         >
             <Button
                 variant='primary'
-                onClick={()=>setOpenModal(!openModal)}
+                onClick={()=>setOpenModal(true)}
             >Confirmar</Button>
             <Button
                 variant='secondary'
@@ -38,6 +38,19 @@ export function FinancialProductContainer() {
             <Input id="1" labelText="Logo" />
             <Modal 
                 open={openModal}
+                message='¿Estas seguro de eliminar el producto {titulo-del-producto}?'
+                buttons={[
+                    {
+                        text: 'Cancelar',
+                        action: ()=>setOpenModal(false),
+                        variant: 'secondary',
+                    },
+                    {
+                        text: 'Continuar',
+                        action: ()=>setOpenModal(false),
+                        variant: 'primary',
+                    },
+                ]}
             />
         </div>
     );
