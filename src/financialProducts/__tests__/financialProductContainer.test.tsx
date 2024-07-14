@@ -11,4 +11,3 @@ describe('Financial Product Container', () => {
         });
     });
 });
-FinancialProductContainer
