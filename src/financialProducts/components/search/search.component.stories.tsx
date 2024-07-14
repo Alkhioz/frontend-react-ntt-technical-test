@@ -1,45 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Search } from './search.component';
+import { MockListComponent, MockListDataProps } from '../../../__mocks__/mockList.component';
 
-type TestDataProps = {
-    id: number;
-    name: string;
-};
+const WithSearchComponent = Search<MockListDataProps>(MockListComponent);
 
-type ItemComponentProps<T> = {
-    data: T[]
-};
 
-const WithSearchComponent = Search<TestDataProps>(ItemComponent);
-
-function ItemComponent<T extends object>(props: ItemComponentProps<T>) {
-    return (
-        <ul
-            style={{
-                listStyle: 'none',
-                padding: '0',
-                margin: '0',
-                marginTop: '1rem',
-            }}
-        >
-            {props.data.map((elm, index) => (
-                <li
-                    key={index}
-                    style={{
-                        display: 'flex',
-                        gap: '1rem',
-                    }}
-                >
-                    {Object.keys(elm).map((key, index2) => (
-                        <span key={index2}>{(elm as any)?.[key]}</span>
-                    ))}
-                </li>
-            ))}
-        </ul>
-    );
-}
-
-const meta: Meta<typeof Search<TestDataProps>> = {
+const meta: Meta<typeof Search<MockListDataProps>> = {
     component: WithSearchComponent,
     decorators: [
         (Story) => (
@@ -59,7 +25,7 @@ const meta: Meta<typeof Search<TestDataProps>> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof Search<TestDataProps>>;
+type Story = StoryObj<typeof Search<MockListDataProps>>;
 
 export const WithValidImageUrl: Story = {
     args: {
