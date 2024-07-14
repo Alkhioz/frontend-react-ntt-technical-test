@@ -15,6 +15,7 @@ export default {
     '!src/**/*.{stories,story}.{ts,tsx,js,jsx}',
     '!src/App.tsx',
     '!src/main.tsx',
+    '!src/**/*.{route,container}.{ts,tsx}',
   ],
   moduleNameMapper: {
     '\\.(css|less)$': '<rootDir>/src/__mocks__/styleMock.js',

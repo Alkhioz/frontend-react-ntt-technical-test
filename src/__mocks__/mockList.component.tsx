@@ -1,3 +1,5 @@
+import { DataType, keys } from "../financialProducts/domain/datatype.type";
+
 export type MockListDataProps = {
     id: number;
     name: string;
@@ -8,7 +10,7 @@ type MockListComponentProps<T> = {
     data: T[]
 };
 
-export function MockListComponent<T extends object>(props: MockListComponentProps<T>) {
+export function MockListComponent<T extends DataType<T>>(props: MockListComponentProps<T>) {
     return (
         <ul
             style={{
@@ -27,7 +29,7 @@ export function MockListComponent<T extends object>(props: MockListComponentProp
                     }}
                 >
                     {Object.keys(elm).map((key, index2) => (
-                        <span key={index2}>{(elm as any)?.[key]}</span>
+                        <span key={index2}>{elm?.[key as keys<T>]}</span>
                     ))}
                 </li>
             ))}

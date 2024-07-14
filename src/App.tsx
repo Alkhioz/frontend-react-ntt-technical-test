@@ -1,4 +1,4 @@
-import { FinancialProductContainer } from './financialProducts/financialProductContainer'
+import { FinancialProductContainer } from './financialProducts/financialProduct.route'
 
 function App() {
   return (

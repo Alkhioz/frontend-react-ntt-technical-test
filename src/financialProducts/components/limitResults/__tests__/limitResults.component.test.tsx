@@ -3,7 +3,7 @@ import { fireEvent, render } from "@testing-library/react";
 import { MockListComponent, MockListDataProps } from '../../../../__mocks__/mockList.component';
 import { LimitResults } from '../limitResults.component';
 
-const WithLimitResultsComponent = LimitResults<MockListDataProps>(MockListComponent);
+const WithLimitResultsComponent = LimitResults<MockListDataProps, unknown>(MockListComponent);
 
 describe('LimitResults component test', () => {
     it('The element renders', () => {
