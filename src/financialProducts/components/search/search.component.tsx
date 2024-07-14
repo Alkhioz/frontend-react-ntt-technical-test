@@ -31,14 +31,26 @@ export function Search<T extends DataType<T>, L>(Component: React.ComponentType<
         }, [props.data, searchTerm]);
         return (
             <div className='searchContainer'>
-                <input
-                    className='search'
-                    type="text"
-                    name={props.name}
-                    id={props.id}
-                    placeholder='Search...'
-                    onChange={(e) => setSearchTerm(e.target.value || null)}
-                />
+                <div className='searchHeader'>
+                    <input
+                        className='search'
+                        type="text"
+                        name={props.name}
+                        id={props.id}
+                        placeholder='Search...'
+                        onChange={(e) => setSearchTerm(e.target.value || null)}
+                    />
+                    {
+                        (
+                            props.configuration
+                            && typeof props.configuration === 'object'
+                            && 'actionButton' in props.configuration
+                        )
+                            ? <div>{(props.configuration.actionButton as React.ReactNode)}</div>
+                            : null
+                    }
+
+                </div>
                 <Component {...{ configuration: props.configuration, data, id: props?.id, }} />
             </div>
         );

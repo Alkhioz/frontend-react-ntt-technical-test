@@ -1,3 +1,4 @@
+import { Button } from "../components/button/button.component";
 import { Header } from "../components/header/header.component";
 import { ThemedTableWithSearchLimitCard } from "./components/themedTable.component";
 import './listFinancialProducts.container.css';
@@ -142,7 +143,14 @@ export function ListFinancialProductContainer() {
             <div className="tableComponentContainer">
                 <ThemedTableWithSearchLimitCard
                     configuration={{
-                        theme
+                        theme,
+                        actionButton: (
+                            <Button
+                                variant="primary"
+                            >
+                                Agregar
+                            </Button>
+                        )
                     }}
                     data={data}
                 />

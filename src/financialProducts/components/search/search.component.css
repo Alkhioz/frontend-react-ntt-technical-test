@@ -11,3 +11,10 @@
     border-radius: .5rem;
     max-width: 250px;
 }
+
+.searchHeader {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+}

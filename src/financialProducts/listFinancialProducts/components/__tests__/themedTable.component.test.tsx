@@ -42,7 +42,8 @@ describe('ThemedTable component test', () => {
         const { getByText } = render(
             <ThemedTableWithSearchLimitCard
                 configuration={{
-                    theme
+                    theme,
+                    actionButton: <></>
                 }}
                 data={data}
             />
