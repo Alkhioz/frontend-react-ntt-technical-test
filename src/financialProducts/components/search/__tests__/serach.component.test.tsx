@@ -18,7 +18,7 @@ describe('Search component test', () => {
                     },
                     {
                         id: 2,
-                        name: 'tow',
+                        name: 'two',
                         status: false,
                     },
                 ]}

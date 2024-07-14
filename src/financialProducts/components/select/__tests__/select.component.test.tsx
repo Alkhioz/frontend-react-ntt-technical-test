@@ -1,10 +1,11 @@
 import '@testing-library/jest-dom'
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { Select } from '../select.component';
 describe('Select component test', () => {
     it('The element gets rendered with the proper text', () => {
         const { getByText } = render(
             <Select
+                id={'1'}
                 options={[
                     {
                         displayText: '5',
@@ -19,6 +20,7 @@ describe('Select component test', () => {
                 ]}
             />
         );
+        fireEvent.change(getByText('5'), { target: { value: '10' } });
         expect(getByText('5')).toBeInTheDocument();
     });
     it('The element shows no data message', () => {

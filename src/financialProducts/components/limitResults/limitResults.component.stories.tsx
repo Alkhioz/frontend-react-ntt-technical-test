@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Search } from './search.component';
 import { MockListComponent, MockListDataProps } from '../../../__mocks__/mockList.component';
+import { LimitResults } from './limitResults.component';
 
-const WithSearchComponent = Search<MockListDataProps>(MockListComponent);
+const WithSearchComponent = LimitResults<MockListDataProps>(MockListComponent);
 
 
-const meta: Meta<typeof Search<MockListDataProps>> = {
+const meta: Meta<typeof LimitResults<MockListDataProps>> = {
     component: WithSearchComponent,
     decorators: [
         (Story) => (
@@ -25,7 +25,7 @@ const meta: Meta<typeof Search<MockListDataProps>> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof Search<MockListDataProps>>;
+type Story = StoryObj<typeof LimitResults<MockListDataProps>>;
 
 export const Default: Story = {
     args: {
@@ -42,8 +42,27 @@ export const Default: Story = {
                 id: 3,
                 name: 'Third Element'
             },
+            {
+                id: 4,
+                name: 'Fourth Element'
+            },
+            {
+                id: 5,
+                name: 'Fifth Element'
+            },
+            {
+                id: 6,
+                name: 'Sixth Element'
+            },
+            {
+                id: 7,
+                name: 'Seventh Element'
+            },
+            {
+                id: 8,
+                name: 'Eighth Element'
+            },
         ],
-        id: 'search',
-        name: 'search',
+        id: 'list'
     }
 };

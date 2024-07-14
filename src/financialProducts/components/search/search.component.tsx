@@ -37,7 +37,7 @@ export function Search<T extends object>(Component: React.ComponentType<SearchPr
                     placeholder='Search...'
                     onChange={(e) => setSearchTerm(e.target.value || null)}
                 />
-                <Component {...{ data }} />
+                <Component {...{ data, id: props?.id }} />
             </div>
         );
     }
