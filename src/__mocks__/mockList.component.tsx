@@ -1,3 +1,5 @@
+import { DataType, keys } from "../financialProducts/domain/datatype.type";
+
 export type MockListDataProps = {
     id: number;
     name: string;
@@ -6,11 +8,6 @@ export type MockListDataProps = {
 
 type MockListComponentProps<T> = {
     data: T[]
-};
-
-type keys<T> = keyof T;
-type DataType<T> = {
-    [K in keyof T]: T[K];
 };
 
 export function MockListComponent<T extends DataType<T>>(props: MockListComponentProps<T>) {

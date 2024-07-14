@@ -2,14 +2,16 @@ import React, { useMemo, useState } from 'react';
 import "./limitResults.component.css";
 import { Quantity } from '../quantity/quantity.component';
 import { Select } from '../select/select.component';
+import { DataType } from '../../domain/datatype.type';
 
-type SearchProps<T> = {
+type LimitProps<T, L> = {
     id?: string | undefined;
     data: T[];
+    configuration?: L;
 };
 
-export function LimitResults<T extends object>(Component: React.ComponentType<SearchProps<T>>) {
-    return function WrappedComponent(props: SearchProps<T>) {
+export function LimitResults<T extends DataType<T>, L>(Component: React.ComponentType<LimitProps<T, L>>) {
+    return function WrappedComponent(props: LimitProps<T, L>) {
         const [ maxNumberOfElements, setMaxNumberOfElements ] = useState<number>(5);
         const data = useMemo(() => {
             return props.data.slice(0, maxNumberOfElements);
@@ -18,9 +20,10 @@ export function LimitResults<T extends object>(Component: React.ComponentType<Se
             if(!isNaN(+value)) setMaxNumberOfElements(+value);
         }
         const id = props?.id;
+        const configuration = props?.configuration;
         return (
             <div className='limitResultsContainer'>
-                <Component {...{ data, id }} />
+                <Component {...{ data, id, configuration }} />
                 <div className='limitResultsFooter'>
                     <Quantity quantity={data?.length} />
                     <div style={{ flexGrow: '1'}}></div>

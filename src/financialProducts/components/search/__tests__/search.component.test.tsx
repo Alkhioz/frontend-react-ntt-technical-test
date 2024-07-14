@@ -3,7 +3,7 @@ import { fireEvent, render } from "@testing-library/react";
 import { Search } from '../search.component';
 import { MockListComponent, MockListDataProps } from '../../../../__mocks__/mockList.component';
 
-const WithSearchComponent = Search<MockListDataProps>(MockListComponent);
+const WithSearchComponent = Search<MockListDataProps, unknown>(MockListComponent);
 
 describe('Search component test', () => {
     it('The element renders', () => {

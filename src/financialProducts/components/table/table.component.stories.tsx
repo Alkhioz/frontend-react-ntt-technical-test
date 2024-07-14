@@ -18,7 +18,14 @@ const meta: Meta<typeof Table<MockListDataProps>> = {
     component: Table<MockListDataProps>,
     decorators: [
         (Story) => (
-            <Story />
+            <div 
+                style={{
+                    width: '100%',
+                    height: '400px',
+                }}
+            >
+                <Story />
+            </div>
         )
     ],
 };

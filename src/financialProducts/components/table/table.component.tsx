@@ -1,3 +1,4 @@
+import { DataType, keys } from '../../domain/datatype.type';
 import './table.component.css';
 
 type HeaderType = {
@@ -22,17 +23,11 @@ type RenderBodyCustomHeaderType<T> = CustomHeaderType & {
     render: (row: T) => React.ReactNode
 }
 
-type ThemeType<T> = (KeyBodyType | RenderBodyType<T> | RenderBodyCustomHeaderType<T>)[];
+export type ThemeType<T> = (KeyBodyType | RenderBodyType<T> | RenderBodyCustomHeaderType<T>)[];
 
 type TableProps<T> = {
     theme: ThemeType<T>,
     data: T[]
-};
-
-type keys<T> = keyof T;
-
-type DataType<T> = {
-    [K in keyof T]: T[K];
 };
 
 function TableHeader<T>({ theme }: { theme: ThemeType<T> }) {

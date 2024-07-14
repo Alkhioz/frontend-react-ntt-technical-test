@@ -1,14 +1,16 @@
 import React, { useMemo, useState } from 'react';
 import "./search.component.css";
+import { DataType, keys } from '../../domain/datatype.type';
 
-type SearchProps<T> = {
+type SearchProps<T, L> = {
     name?: string;
     id?: string;
     data: T[];
+    configuration?: L;
 };
 
-export function Search<T extends object>(Component: React.ComponentType<SearchProps<T>>) {
-    return function WrappedComponent(props: SearchProps<T>) {
+export function Search<T extends DataType<T>, L>(Component: React.ComponentType<SearchProps<T, L>>) {
+    return function WrappedComponent(props: SearchProps<T, L>) {
         const [searchTerm, setSearchTerm] = useState<string | null>(null);
         const data = useMemo(() => {
             if (!searchTerm) return props.data;
@@ -16,10 +18,10 @@ export function Search<T extends object>(Component: React.ComponentType<SearchPr
                 return Object.keys(elm).some((key) => {
                     const value = elm[key as keyof T];
                     if (typeof value === 'number') {
-                        return value.toString() === searchTerm;
+                        return (value as keys<T>).toString() === searchTerm;
                     }
                     if (typeof value === 'string') {
-                        return value?.toLocaleUpperCase().includes(
+                        return (value as string)?.toLocaleUpperCase().includes(
                             searchTerm?.toLocaleUpperCase()
                         );
                     }
@@ -37,7 +39,7 @@ export function Search<T extends object>(Component: React.ComponentType<SearchPr
                     placeholder='Search...'
                     onChange={(e) => setSearchTerm(e.target.value || null)}
                 />
-                <Component {...{ data, id: props?.id }} />
+                <Component {...{ configuration: props.configuration, data, id: props?.id, }} />
             </div>
         );
     }

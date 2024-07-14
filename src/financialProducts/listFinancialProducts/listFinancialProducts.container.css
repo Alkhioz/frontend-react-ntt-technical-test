@@ -1,0 +1,16 @@
+.listFinancialProducts {
+    background-color: var(--color-secondary);
+    width: 100%;
+    height: 100%;
+    display: grid;
+}
+
+.tableComponentContainer {
+    padding: 4rem;
+}
+
+@media (width <= 600px) {
+    .tableComponentContainer {
+        padding: 0;
+    }
+}
