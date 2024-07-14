@@ -1,9 +1,8 @@
-import './App.css'
 import { FinancialProductContainer } from './financialProducts/financialProductContainer'
 
 function App() {
   return (
-    <FinancialProductContainer />
+      <FinancialProductContainer />
   )
 }
 

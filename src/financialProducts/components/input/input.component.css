@@ -1,0 +1,21 @@
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    margin: 3rem;
+}
+
+.input {
+    width: 100%;
+    border: 1px solid var(--color-secondary);
+    padding: 1rem;
+    border-radius: .5rem;
+}
+
+.inputError {
+    border: 1px solid var(--color-error);
+}
+
+.error {
+    color: var(--color-error);
+}

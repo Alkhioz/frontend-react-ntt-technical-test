@@ -6,7 +6,7 @@ describe('Financial Product Container', () => {
         const { getAllByText } = render(
             <FinancialProductContainer />
         );
-        getAllByText('Confirmar').forEach(elm => {
+        getAllByText('Financial Product').forEach(elm => {
             expect(elm).toBeInTheDocument();
         });
     });
