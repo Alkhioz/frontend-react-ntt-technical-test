@@ -4,6 +4,7 @@
 }
 
 .tooltipLogo {
+    position: relative;
     background-color: var(--color-alternative-2);
     width: .6rem;
     height: .6rem;
@@ -20,7 +21,7 @@
     font-weight: lighter;
     background-color: var(--color-alternative-2);
     padding: .5rem;
-    top: 12%;
+    top: 22px;
     position : absolute;
     content : attr(data-tooltip);
     opacity : 0;
