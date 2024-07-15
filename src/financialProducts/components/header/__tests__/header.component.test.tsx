@@ -1,11 +1,15 @@
 import '@testing-library/jest-dom'
-import { render } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import { Header } from '../header.component';
+import { BrowserRouter } from 'react-router-dom';
 describe('Header component test', () => {
     it('The header gets rendered', () => {
-        const { getByText } = render(
-            <Header />
+        const { getByText,  } = render(
+            <BrowserRouter>
+                <Header />
+            </BrowserRouter>
         );
         expect(getByText('BANCO')).toBeInTheDocument();
+        fireEvent.click(getByText('BANCO'));
     });
 });
