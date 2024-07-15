@@ -9,6 +9,43 @@
     padding: 4rem;
 }
 
+.contextMenu {
+    color: var(--color-alternative-2);
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 2rem;
+    position: relative;
+}
+
+.contextMenuElements{
+    position: absolute;
+    z-index: 50;
+    background-color: var(--color-secondary-light);
+    border: 1px solid var(--color-secondary);
+    padding: 1rem;
+    right: 1rem;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+
+
+.contextMenuEditButton, .contextMenuDeleteButton {
+    padding: .5rem;
+    font-weight: bold;
+}
+
+.contextMenuDeleteButton {
+    color: var(--color-error);
+}
+
+.contextMenuEditButton {
+    color: var(--color-alternative);
+}
+
 @media (width <= 600px) {
     .tableComponentContainer {
         padding: 0;

@@ -11,6 +11,25 @@ import { Modal } from "../components/modal/modal.component";
 import { useRemoveProduct } from "../hooks/useRemoveProduct.hook";
 import { useNavigate } from "react-router-dom";
 
+type DropDownProps = {
+    children: React.ReactNode,
+}
+
+function Dropdown(props: DropDownProps) {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+        <>
+            <button className="contextMenu" onClick={() => { setIsOpen(!isOpen) }}>
+                ⋮
+            </button>
+            {
+                isOpen ? <div className="contextMenuElements">{props.children}</div> : null
+            }
+        </>
+    )
+}
+
 export function ListFinancialProductContainer() {
     const navigate = useNavigate();
     const {
@@ -79,16 +98,20 @@ export function ListFinancialProductContainer() {
             display: <></>,
             render: (row: FinancialProduct) => (
                 <>
-                <button
-                    onClick={() => {
-                        handleDelete(row);
-                    }}
-                >delete</button>
-                <button
-                    onClick={() => {
-                        navigate(`/financialproduct/edit/${encodeURIComponent(btoa(JSON.stringify(row)))}`);
-                    }}
-                >Edit</button>
+                    <Dropdown>
+                        <button
+                            className="contextMenuDeleteButton"
+                            onClick={() => {
+                                handleDelete(row);
+                            }}
+                        >delete</button>
+                        <button
+                            className="contextMenuEditButton"
+                            onClick={() => {
+                                navigate(`/financialproduct/edit/${encodeURIComponent(btoa(JSON.stringify(row)))}`);
+                            }}
+                        >Edit</button>
+                    </Dropdown>
                 </>
             ),
         },
@@ -106,7 +129,7 @@ export function ListFinancialProductContainer() {
                                 actionButton: (
                                     <Button
                                         variant="primary"
-                                        onClick={()=>{
+                                        onClick={() => {
                                             navigate('/financialproduct/add');
                                         }}
                                     >
