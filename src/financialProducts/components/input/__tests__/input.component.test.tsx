@@ -14,7 +14,10 @@ describe('Input Component', () => {
             action: minMaxLength(3, 20),
             errorText: 'Invalid ID'
           }
-        ]} 
+        ]}
+        disabled={false}
+        type='text'
+        onChange={()=>{}}
       />
     );
     const input = getByLabelText('ID');

@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     gap: .5rem;
-    margin: 3rem;
 }
 
 .input {
@@ -18,4 +17,8 @@
 
 .error {
     color: var(--color-error);
+}
+
+.disabledInput {
+    opacity: 50%;
 }

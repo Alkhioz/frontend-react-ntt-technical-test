@@ -1,152 +1,182 @@
+import { Button } from "../components/button/button.component";
 import { Header } from "../components/header/header.component";
+import { Tooltip } from "../components/tooltip/tooltip.component";
+import { FinancialProduct } from "../domain/financialProduct.entity";
+import { useListProducts } from "../hooks/useListProducts.hook";
 import { ThemedTableWithSearchLimitCard } from "./components/themedTable.component";
 import './listFinancialProducts.container.css';
+import { Logo } from "../components/logo/logo.component";
+import { useRef, useState } from "react";
+import { Modal } from "../components/modal/modal.component";
+import { useRemoveProduct } from "../hooks/useRemoveProduct.hook";
+import { useNavigate } from "react-router-dom";
 
-const theme = [
-    { displayName: 'ID', key: 'id' },
-    { displayName: 'Name', key: 'name' },
-    { displayName: 'Description', key: 'description' },
-    { displayName: 'Logo', key: 'logo' },
-    { displayName: 'Date Release', key: 'date_release' },
-    { displayName: 'Date Revision', key: 'date_revision' },
-];
+type DropDownProps = {
+    children: React.ReactNode,
+}
 
-const data = [
-    {
-        id: '1',
-        name: 'Savings Account',
-        description: 'A secure account to save money with interest.',
-        logo: 'logo1.png',
-        date_release: '2021-01-01',
-        date_revision: '2021-06-01',
-    },
-    {
-        id: '2',
-        name: 'Checking Account',
-        description: 'An account for daily transactions with no interest.',
-        logo: 'logo2.png',
-        date_release: '2021-02-01',
-        date_revision: '2021-07-01',
-    },
-    {
-        id: '3',
-        name: 'Credit Card',
-        description: 'A card to borrow funds with an interest rate.',
-        logo: 'logo3.png',
-        date_release: '2021-03-01',
-        date_revision: '2021-08-01',
-    },
-    {
-        id: '4',
-        name: 'Mortgage',
-        description: 'A loan to purchase real estate property.',
-        logo: 'logo4.png',
-        date_release: '2021-04-01',
-        date_revision: '2021-09-01',
-    },
-    {
-        id: '5',
-        name: 'Personal Loan',
-        description: 'A loan for personal expenses with a fixed interest rate.',
-        logo: 'logo5.png',
-        date_release: '2021-05-01',
-        date_revision: '2021-10-01',
-    },
-    {
-        id: '6',
-        name: 'Investment Account',
-        description: 'An account for investing in stocks and bonds.',
-        logo: 'logo6.png',
-        date_release: '2021-06-01',
-        date_revision: '2021-11-01',
-    },
-    {
-        id: '7',
-        name: 'Retirement Account',
-        description: 'An account to save for retirement with tax benefits.',
-        logo: 'logo7.png',
-        date_release: '2021-07-01',
-        date_revision: '2021-12-01',
-    },
-    {
-        id: '8',
-        name: 'Health Savings Account',
-        description: 'A tax-advantaged account for medical expenses.',
-        logo: 'logo8.png',
-        date_release: '2021-08-01',
-        date_revision: '2022-01-01',
-    },
-    {
-        id: '9',
-        name: 'Student Loan',
-        description: 'A loan to cover education-related expenses.',
-        logo: 'logo9.png',
-        date_release: '2021-09-01',
-        date_revision: '2022-02-01',
-    },
-    {
-        id: '10',
-        name: 'Auto Loan',
-        description: 'A loan to finance the purchase of a vehicle.',
-        logo: 'logo10.png',
-        date_release: '2021-10-01',
-        date_revision: '2022-03-01',
-    },
-    {
-        id: '11',
-        name: 'Business Loan',
-        description: 'A loan to support business operations and growth.',
-        logo: 'logo11.png',
-        date_release: '2021-11-01',
-        date_revision: '2022-04-01',
-    },
-    {
-        id: '12',
-        name: 'Certificate of Deposit',
-        description: 'A savings certificate with a fixed interest rate.',
-        logo: 'logo12.png',
-        date_release: '2021-12-01',
-        date_revision: '2022-05-01',
-    },
-    {
-        id: '13',
-        name: 'Money Market Account',
-        description: 'A high-yield savings account with check-writing privileges.',
-        logo: 'logo13.png',
-        date_release: '2022-01-01',
-        date_revision: '2022-06-01',
-    },
-    {
-        id: '14',
-        name: 'Forex Trading Account',
-        description: 'An account for trading foreign currencies.',
-        logo: 'logo14.png',
-        date_release: '2022-02-01',
-        date_revision: '2022-07-01',
-    },
-    {
-        id: '15',
-        name: 'Cryptocurrency Wallet',
-        description: 'A digital wallet for storing cryptocurrencies.',
-        logo: 'logo15.png',
-        date_release: '2022-03-01',
-        date_revision: '2022-08-01',
-    }
-];
+function Dropdown(props: DropDownProps) {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+        <>
+            <button className="contextMenu" onClick={() => { setIsOpen(!isOpen) }}>
+                ⋮
+            </button>
+            {
+                isOpen ? <div className="contextMenuElements">{props.children}</div> : null
+            }
+        </>
+    )
+}
+
+
+const emptyFinancialProducts: FinancialProduct[] = Array(5).fill({
+    id: '',
+    name: '',
+    description: '',
+    logo: '',
+    date_release: '',
+    date_revision: '',
+});
 
 export function ListFinancialProductContainer() {
+    const navigate = useNavigate();
+    const {
+        data,
+        loading,
+        error,
+        refetch,
+    } = useListProducts();
+
+    const {
+        remove,
+        loading: removeLoading,
+        error: removeError,
+    } = useRemoveProduct();
+
+    const [show, setShow] = useState<boolean>(false);
+    const [message, setMessage] = useState<string>('');
+    const id = useRef<string | null>(null);
+
+    const handleDelete = (row: FinancialProduct) => {
+        setMessage(`¿Estas seguro de eliminar el producto ${row.name}?`);
+        id.current = row.id;
+        setShow(true);
+    }
+
+    const theme = [
+        {
+            displayName: 'Logo',
+            render: (row: FinancialProduct) => <Logo src={row.logo} />
+        },
+        {
+            displayName: 'Nombre del Producto',
+            key: 'name'
+        },
+        {
+            display: (
+                <div>
+                    Descripción
+                    <Tooltip message="Descripción" />
+                </div>
+            )
+            ,
+            render: (row: FinancialProduct) => row.description,
+        },
+        {
+            display: (
+                <div>
+                    Fecha de liberación
+                    <Tooltip message="Fecha de liberación" />
+                </div>
+            )
+            ,
+            render: (row: FinancialProduct) => row.date_release,
+        },
+        {
+            display: (
+                <div>
+                    Fecha de reestructuración
+                    <Tooltip message="Fecha de reestructuración" />
+                </div>
+            )
+            ,
+            render: (row: FinancialProduct) => row.date_revision,
+        },
+        {
+            display: <></>,
+            render: (row: FinancialProduct) => (
+                row?.id === ''
+                    ? '' :
+                    <>
+                        <Dropdown>
+                            <button
+                                className="contextMenuDeleteButton"
+                                onClick={() => {
+                                    handleDelete(row);
+                                }}
+                            >delete</button>
+                            <button
+                                className="contextMenuEditButton"
+                                onClick={() => {
+                                    navigate(`/financialproduct/edit/${encodeURIComponent(btoa(JSON.stringify(row)))}`);
+                                }}
+                            >Edit</button>
+                        </Dropdown>
+                    </>
+            ),
+        },
+    ];
 
     return (
         <div className="listFinancialProducts">
             <Header />
             <div className="tableComponentContainer">
-                <ThemedTableWithSearchLimitCard
-                    configuration={{
-                        theme
-                    }}
-                    data={data}
-                />
+                {
+                    (!loading && !error && data && !removeLoading && !removeError) ?
+                        <ThemedTableWithSearchLimitCard
+                            configuration={{
+                                theme,
+                                actionButton: (
+                                    <Button
+                                        variant="primary"
+                                        onClick={() => {
+                                            navigate('/financialproduct/add');
+                                        }}
+                                    >
+                                        Agregar
+                                    </Button>
+                                )
+                            }}
+                            data={data?.length > 0 ? data : emptyFinancialProducts}
+                        />
+                        : null
+                }
             </div>
+            <Modal
+                open={show}
+                message={message}
+                buttons={[
+                    {
+                        variant: 'secondary',
+                        action: () => {
+                            setShow(false);
+                        },
+                        text: 'Cancelar'
+                    }, {
+                        variant: 'primary',
+                        action: async () => {
+                            if (id.current) {
+                                setShow(false);
+                                await remove(id.current);
+                                await refetch();
+                            }
+                        },
+                        text: 'Continuar'
+                    }
+                ]}
+            />
         </div>
     );
 }

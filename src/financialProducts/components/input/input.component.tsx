@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { forwardRef, LegacyRef, useImperativeHandle, useState } from "react";
 import "./input.component.css";
 
 type ValidationRulesType = {
@@ -7,25 +7,52 @@ type ValidationRulesType = {
 }
 
 type InputProps = {
+    disabled?: boolean,
     id: string,
+    type?: string,
     labelText: string,
     placeholder?: string,
     validationRules?: ValidationRulesType[]
+    elementRef?: LegacyRef<HTMLInputElement>
+    onChange?: (value:string)=>void
 }
 
-export function Input({
+export type InputHandle = {
+    id: string,
+    resetError: () => void;
+    setError: (error:string) => void;
+    hasError: () => boolean;
+};
+
+export const Input = forwardRef<InputHandle, InputProps>(({
     id,
     labelText,
     placeholder,
     validationRules,
-}: InputProps) {
+    elementRef,
+    disabled,
+    type='text',
+    onChange,
+}, ref) => {
     const [errorText, setErrorText] = useState<string | null>();
+
+    useImperativeHandle(ref, () => ({
+        id: id,
+        resetError: () => setErrorText(null),
+        hasError: () => !!errorText,
+        setError: (error:string) => {
+            setErrorText(error)
+        },
+    }));
+
     return (
-        <div className="inputContainer">
+        <div className={`inputContainer ${disabled ? 'disabledInput' : ''}`}>
             <label htmlFor={id}>{labelText}</label>
             <input
+                disabled={disabled}
                 id={id}
-                type="text"
+                ref={elementRef}
+                type={type}
                 className={`input ${errorText ? 'inputError' : ''}`}
                 placeholder={placeholder}
                 onChange={(evt) => {
@@ -33,6 +60,7 @@ export function Input({
                         (rule) => !rule.action(evt?.target?.value)
                     )?.errorText;
                     setErrorText(errorText ?? null);
+                    if(onChange) onChange(evt.target.value);
                 }}
             >
             </input>
@@ -41,4 +69,4 @@ export function Input({
             }
         </div>
     );
-}
+});

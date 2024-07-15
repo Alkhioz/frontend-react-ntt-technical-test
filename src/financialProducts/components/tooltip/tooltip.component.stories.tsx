@@ -13,7 +13,6 @@ const meta: Meta<typeof Tooltip> = {
                 flexWrap: 'wrap',
                 alignItems: 'center',
                 justifyContent: 'center',
-                padding: '4rem',
             }}>
                 <Story />
             </div>

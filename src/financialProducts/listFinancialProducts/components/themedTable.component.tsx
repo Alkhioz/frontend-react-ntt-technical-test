@@ -11,7 +11,8 @@ type ThemedTableProps<T, L> = {
 }
 
 type AdditionalProps<T> = {
-    theme: ThemeType<T>
+    theme: ThemeType<T>,
+    actionButton: React.ReactNode,
 }
 
 export function ThemedTable<T, L extends DataType<L>>(

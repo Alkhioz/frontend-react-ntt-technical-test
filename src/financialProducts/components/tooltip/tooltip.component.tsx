@@ -6,13 +6,11 @@ export function Tooltip({
     message
 }: TooltipPros) {
     return (
-        <div className='tooltip'>
-            <div className='tooltipLogo'>
-                i
-            </div>
-            <div className='tooltipText'>
-                {message}
-            </div>
+        <div className="tooltipLogoContainer">
+            <div
+                data-tooltip={message}
+                className='tooltipLogo'
+            >i</div>
         </div>
     )
 }
