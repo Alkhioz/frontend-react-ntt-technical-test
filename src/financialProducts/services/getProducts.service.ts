@@ -21,6 +21,13 @@ class ApiService {
         return data;
     }
 
+    public async deleteProduct(id:string):Promise<FinancialProduct[]> {
+        const {data} =  await this.request(`/bp/products/${id}`, {
+            method: 'delete',
+        });
+        return data;
+    }
+
 }
 
 export const financialProductsImpl = new ApiService('http://localhost:3002');

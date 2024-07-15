@@ -7,19 +7,24 @@ export function useListProducts() {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<unknown>(null);
 
+    const fetchProducts = async () => {
+        try {
+            const products = await financialProductsImpl.getProducts();
+            setData(products);
+            setLoading(false);
+        } catch (error) {
+            setError(error);
+            setLoading(false);
+        }
+    };
+
+    const refetch = async () => {
+        await fetchProducts();
+    }
+
     useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const products = await financialProductsImpl.getProducts();
-                setData(products);
-                setLoading(false);
-            } catch (error) {
-                setError(error);
-                setLoading(false);
-            }
-        };
         fetchProducts();
     }, []);
 
-    return { data, loading, error };
+    return { data, refetch, loading, error };
 }

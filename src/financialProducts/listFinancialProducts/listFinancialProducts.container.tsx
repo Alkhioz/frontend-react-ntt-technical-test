@@ -6,60 +6,91 @@ import { useListProducts } from "../hooks/useListProducts.hook";
 import { ThemedTableWithSearchLimitCard } from "./components/themedTable.component";
 import './listFinancialProducts.container.css';
 import { Logo } from "../components/logo/logo.component";
-
-const theme = [
-    {
-        displayName: 'Logo',
-        render: (row: FinancialProduct) => <Logo src={row.logo} />
-    },
-    {
-        displayName: 'Nombre del Producto',
-        key: 'name'
-    },
-    {
-        display: (
-            <div>
-                Descripción
-                <Tooltip message="Descripción" />
-            </div>
-        )
-        ,
-        render: (row: FinancialProduct) => <>{row.description}</>,
-    },
-    {
-        display: (
-            <div>
-                Fecha de liberación
-                <Tooltip message="Fecha de liberación" />
-            </div>
-        )
-        ,
-        render: (row: FinancialProduct) => <>{row.date_release}</>,
-    },
-    {
-        display: (
-            <div>
-                Fecha de reestructuración
-                <Tooltip message="Fecha de reestructuración" />
-            </div>
-        )
-        ,
-        render: (row: FinancialProduct) => <>{row.date_revision}</>,
-    },
-];
+import { useRef, useState } from "react";
+import { Modal } from "../components/modal/modal.component";
+import { useRemoveProduct } from "../hooks/useRemoveProduct.hook";
 
 export function ListFinancialProductContainer() {
     const {
         data,
         loading,
         error,
+        refetch,
     } = useListProducts();
+
+    const {
+        remove,
+        loading: removeLoading,
+        error: removeError,
+    } = useRemoveProduct();
+
+    const [show, setShow] = useState<boolean>(false);
+    const [message, setMessage] = useState<string>('');
+    const id = useRef<string | null>(null);
+
+    const handleDelete = (row: FinancialProduct) => {
+        setMessage(`¿Estas seguro de eliminar el producto ${row.name}?`);
+        id.current = row.id;
+        setShow(true);
+    }
+
+    const theme = [
+        {
+            displayName: 'Logo',
+            render: (row: FinancialProduct) => <Logo src={row.logo} />
+        },
+        {
+            displayName: 'Nombre del Producto',
+            key: 'name'
+        },
+        {
+            display: (
+                <div>
+                    Descripción
+                    <Tooltip message="Descripción" />
+                </div>
+            )
+            ,
+            render: (row: FinancialProduct) => <>{row.description}</>,
+        },
+        {
+            display: (
+                <div>
+                    Fecha de liberación
+                    <Tooltip message="Fecha de liberación" />
+                </div>
+            )
+            ,
+            render: (row: FinancialProduct) => <>{row.date_release}</>,
+        },
+        {
+            display: (
+                <div>
+                    Fecha de reestructuración
+                    <Tooltip message="Fecha de reestructuración" />
+                </div>
+            )
+            ,
+            render: (row: FinancialProduct) => <>{row.date_revision}</>,
+        },
+        {
+            display: <></>,
+            render: (row: FinancialProduct) => (
+                <button
+                    onClick={() => {
+                        handleDelete(row);
+                    }}
+                >delete</button>
+            ),
+        },
+    ];
+
     return (
         <div className="listFinancialProducts">
             <Header />
             <div className="tableComponentContainer">
                 {
-                    (!loading && !error && data) ?
+                    (!loading && !error && data && !removeLoading && !removeError) ?
                         <ThemedTableWithSearchLimitCard
                             configuration={{
                                 theme,
@@ -76,6 +107,29 @@ export function ListFinancialProductContainer() {
                         : null
                 }
             </div>
+            <Modal
+                open={show}
+                message={message}
+                buttons={[
+                    {
+                        variant: 'secondary',
+                        action: () => {
+                            setShow(false);
+                        },
+                        text: 'Cancelar'
+                    }, {
+                        variant: 'primary',
+                        action: async () => {
+                            if (id.current) {
+                                setShow(false);
+                                await remove(id.current);
+                                await refetch();
+                            }
+                        },
+                        text: 'Continuar'
+                    }
+                ]}
+            />
         </div>
     );
 }
