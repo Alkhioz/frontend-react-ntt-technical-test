@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Header } from './header.component';
+import { BrowserRouter } from 'react-router-dom';
 
 const meta: Meta<typeof Header> = {
     component: Header,
@@ -15,7 +16,9 @@ const meta: Meta<typeof Header> = {
                 justifyContent: 'center',
                 backgroundColor: 'gray',
             }}>
-                <Story />
+                <BrowserRouter>
+                    <Story />
+                </BrowserRouter>
                 <div
                     style={{
                         padding: '1rem',
