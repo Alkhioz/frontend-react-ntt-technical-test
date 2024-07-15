@@ -9,25 +9,27 @@ import { Button } from "../components/button/button.component";
 import { useAddProduct } from "../hooks/useAddProduct.hook";
 import { FinancialProduct } from "../domain/financialProduct.entity";
 import { useUpdateProduct } from "../hooks/useUpdateProduct.hook";
+import { useCheckProductId } from "../hooks/useCheckId.hook";
 
 export function UpdateFinancialProductContainer() {
     const navigate = useNavigate();
     const { body } = useParams<{
         body: string,
     }>();
-    const decodedBody = useMemo(()=>{
-        if(!body) return null;
-        try{
+    const decodedBody = useMemo(() => {
+        if (!body) return null;
+        try {
             const json = JSON.parse(atob(body));
             return json;
-        }catch(error){
+        } catch (error) {
             return null
         }
     }, [body]);
-    
+
     const decodedId = decodedBody ? decodedBody.id : null;
     const { add, loading, error } = useAddProduct();
     const { update, loading: updateLoading, error: updateError } = useUpdateProduct();
+    const { check, loading: checkLoading, error: checkError } = useCheckProductId();
     const formId = useRef<HTMLInputElement>(null);
     const formName = useRef<HTMLInputElement>(null);
     const formDescription = useRef<HTMLInputElement>(null);
@@ -36,14 +38,14 @@ export function UpdateFinancialProductContainer() {
     const formDateRevision = useRef<HTMLInputElement>(null);
     const inputRefs = useRef<(InputHandle | null)[]>([]);
 
-    useEffect(()=>{
-        if(decodedBody) {
-            if(formId.current) formId.current.value = decodedBody.id;
-            if(formName.current) formName.current.value = decodedBody.name;
-            if(formDescription.current) formDescription.current.value = decodedBody.description;
-            if(formLogo.current) formLogo.current.value = decodedBody.logo;
-            if(formDateRelease.current) formDateRelease.current.value = decodedBody.date_release;
-            if(formDateRevision.current) formDateRevision.current.value = decodedBody.date_revision;
+    useEffect(() => {
+        if (decodedBody) {
+            if (formId.current) formId.current.value = decodedBody.id;
+            if (formName.current) formName.current.value = decodedBody.name;
+            if (formDescription.current) formDescription.current.value = decodedBody.description;
+            if (formLogo.current) formLogo.current.value = decodedBody.logo;
+            if (formDateRelease.current) formDateRelease.current.value = decodedBody.date_release;
+            if (formDateRevision.current) formDateRevision.current.value = decodedBody.date_revision;
         }
     }, [decodedBody]);
 
@@ -80,13 +82,26 @@ export function UpdateFinancialProductContainer() {
             date_release: dateRelease,
             date_revision: dateRevision,
         } as FinancialProduct;
-        if(isEditing){
+        if (isEditing) {
             await update(body);
-        }else{
-            await add(body);
+            resetForm();
+            if (
+                !loading && !error && !updateLoading
+                && !updateError && !checkLoading && !checkError
+            ) navigate('/financialproduct');
+        } else {
+            const exists = await check(body.id);
+            if (!exists) {
+                await add(body);
+                resetForm();
+                if (
+                    !loading && !error && !updateLoading
+                    && !updateError && !checkLoading && !checkError
+                ) navigate('/financialproduct');
+            } else {
+                inputRefs.current.find((elm)=> elm?.id === 'id')?.setError('ID ya existe');
+            }
         }
-        resetForm();
-        if(!loading && !error && !updateLoading && !updateError) navigate('/financialproduct');
     }
 
     const isEditing = !!decodedId;
@@ -172,7 +187,7 @@ export function UpdateFinancialProductContainer() {
                     <div className="formButtonContainer">
                         <div className="formButton">
                             <Button
-                                disabled={loading || updateLoading}
+                                disabled={loading || updateLoading || checkLoading}
                                 variant="secondary"
                                 onClick={resetForm}
                             >
@@ -181,7 +196,7 @@ export function UpdateFinancialProductContainer() {
                         </div>
                         <div className="formButton">
                             <Button
-                                disabled={loading || updateLoading}
+                                disabled={loading || updateLoading || checkLoading}
                                 variant="primary"
                                 onClick={sendForm}
                             >

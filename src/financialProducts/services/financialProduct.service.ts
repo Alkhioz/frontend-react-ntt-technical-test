@@ -52,6 +52,15 @@ class ApiService {
         return data;
     }
 
+    public async checkId(id: string): Promise<boolean> {
+        const response = await fetch(`${this.baseUrl}/bp/products/verification/${id}`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok: ' + response.statusText);
+        }
+        const status = await response.text();
+        return  status === 'true';
+    }
+
 }
 
 export const financialProductsImpl = new ApiService('http://localhost:3002');

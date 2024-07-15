@@ -16,7 +16,9 @@ type InputProps = {
 }
 
 export type InputHandle = {
+    id: string,
     resetError: () => void;
+    setError: (error:string) => void;
     hasError: () => boolean;
 };
 
@@ -31,8 +33,12 @@ export const Input = forwardRef<InputHandle, InputProps>(({
     const [errorText, setErrorText] = useState<string | null>();
 
     useImperativeHandle(ref, () => ({
+        id: id,
         resetError: () => setErrorText(null),
         hasError: () => !!errorText,
+        setError: (error:string) => {
+            setErrorText(error)
+        },
     }));
 
     return (
