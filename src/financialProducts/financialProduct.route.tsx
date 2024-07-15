@@ -1,14 +1,17 @@
 import { ListFinancialProductContainer } from "./listFinancialProducts/listFinancialProducts.container";
-
 import { Routes, Route, Navigate } from 'react-router-dom'
+import { UpdateFinancialProductContainer } from "./updateFinancialProduct/updateFinancialProduct.container";
+
 
 export function FinancialProductRoute() {
     return (
         <Routes>
-            <Route path='/listfinancialproducts' element={<ListFinancialProductContainer />} />
+            <Route path='financialproduct' element={<ListFinancialProductContainer />} />
+            <Route path='financialproduct/add' element={<UpdateFinancialProductContainer />} />
+            <Route path='financialproduct/edit/:id' element={<UpdateFinancialProductContainer />} />
             <Route
                 path="*"
-                element={<Navigate to="/listfinancialproducts" replace />}
+                element={<Navigate to="financialproduct" replace />}
             />
         </Routes>
     );

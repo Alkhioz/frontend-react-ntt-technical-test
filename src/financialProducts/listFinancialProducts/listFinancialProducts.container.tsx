@@ -9,8 +9,10 @@ import { Logo } from "../components/logo/logo.component";
 import { useRef, useState } from "react";
 import { Modal } from "../components/modal/modal.component";
 import { useRemoveProduct } from "../hooks/useRemoveProduct.hook";
+import { useNavigate } from "react-router-dom";
 
 export function ListFinancialProductContainer() {
+    const navigate = useNavigate();
     const {
         data,
         loading,
@@ -76,11 +78,18 @@ export function ListFinancialProductContainer() {
         {
             display: <></>,
             render: (row: FinancialProduct) => (
+                <>
                 <button
                     onClick={() => {
                         handleDelete(row);
                     }}
                 >delete</button>
+                <button
+                    onClick={() => {
+                        navigate(`/financialproduct/edit/${btoa(row.id)}`);
+                    }}
+                >Edit</button>
+                </>
             ),
         },
     ];
@@ -97,6 +106,9 @@ export function ListFinancialProductContainer() {
                                 actionButton: (
                                     <Button
                                         variant="primary"
+                                        onClick={()=>{
+                                            navigate('/financialproduct/add');
+                                        }}
                                     >
                                         Agregar
                                     </Button>
