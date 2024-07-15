@@ -1,7 +1,15 @@
 import { ListFinancialProductContainer } from "./listFinancialProducts/listFinancialProducts.container";
 
-export function FinancialProductContainer() {
+import { Routes, Route, Navigate } from 'react-router-dom'
+
+export function FinancialProductRoute() {
     return (
-        <ListFinancialProductContainer />
+        <Routes>
+            <Route path='/listfinancialproducts' element={<ListFinancialProductContainer />} />
+            <Route
+                path="*"
+                element={<Navigate to="/listfinancialproducts" replace />}
+            />
+        </Routes>
     );
 }

@@ -1,8 +1,11 @@
-import { FinancialProductContainer } from './financialProducts/financialProduct.route'
+import { BrowserRouter } from "react-router-dom";
+import { FinancialProductRoute } from "./financialProducts/financialProduct.route";
 
 function App() {
   return (
-      <FinancialProductContainer />
+    <BrowserRouter>
+      <FinancialProductRoute />
+    </BrowserRouter>
   )
 }
 
