@@ -18,10 +18,10 @@ export type MockListDataProps = {
 
 describe('Table component test', () => {
     it('The element gets rendered with the proper text', () => {
-        const { container } = render(
+        const { getByText } = render(
             <Table<MockListDataProps>
                 data={[
-                    { id: 1, name: 'First Element', age: 25, address: '123 Main St', phone: '123-456-7890', email: 'first@example.com', company: 'Company A', department: 'Dept 1', title: 'Developer', startDate: '2020-01-01' },
+                    { id: 1, name: 'First Element', age: 25, address: '', phone: '123-456-7890', email: 'first@example.com', company: 'Company A', department: 'Dept 1', title: 'Developer', startDate: '2020-01-01' },
                     { id: 2, name: 'Second Element', age: 30, address: '456 Oak St', phone: '234-567-8901', email: 'second@example.com', company: 'Company B', department: 'Dept 2', title: 'Manager', startDate: '2019-02-15' },
                 ]}
                 theme={[
@@ -33,7 +33,7 @@ describe('Table component test', () => {
                     { displayName: 'Email', key: 'email' },
                     { displayName: 'Company', key: 'company' },
                     { displayName: 'Department', key: 'department' },
-                    { displayName: 'Title', key: 'title' },
+                    { displayName: 'Title', render: ()=> '' },
                     { 
                         display: <></>,
                         render: (row)=><>{row.startDate}</>
@@ -41,6 +41,6 @@ describe('Table component test', () => {
                 ]}
             />
         );
-        expect(container.querySelector('table')).toBeInTheDocument();
+        expect(getByText('first@example.com')).toBeInTheDocument();
     });
 });
