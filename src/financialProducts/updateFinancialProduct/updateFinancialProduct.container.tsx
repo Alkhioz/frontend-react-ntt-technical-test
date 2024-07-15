@@ -10,6 +10,7 @@ import { useAddProduct } from "../hooks/useAddProduct.hook";
 import { FinancialProduct } from "../domain/financialProduct.entity";
 import { useUpdateProduct } from "../hooks/useUpdateProduct.hook";
 import { useCheckProductId } from "../hooks/useCheckId.hook";
+import { addToDate } from "../../utilities/addToDate.utility";
 
 export function UpdateFinancialProductContainer() {
     const navigate = useNavigate();
@@ -48,6 +49,13 @@ export function UpdateFinancialProductContainer() {
             if (formDateRevision.current) formDateRevision.current.value = decodedBody.date_revision;
         }
     }, [decodedBody]);
+
+    useEffect(() => {
+        if (formDateRelease.current) {
+            const today = new Date().toISOString().split('T')[0];
+            formDateRelease.current.min = today;
+        }
+    }, []);
 
     const resetForm = () => {
         if (formId.current && !decodedId) formId.current.value = '';
@@ -99,8 +107,16 @@ export function UpdateFinancialProductContainer() {
                     && !updateError && !checkLoading && !checkError
                 ) navigate('/financialproduct');
             } else {
-                inputRefs.current.find((elm)=> elm?.id === 'id')?.setError('ID ya existe');
+                inputRefs.current.find((elm) => elm?.id === 'id')?.setError('ID ya existe');
             }
+        }
+    }
+
+    const updateRevisionDate = (value:string) => {
+        if(value){
+            const date = new Date(value);
+            const newDate = addToDate(date, {years:1});
+            if(formDateRevision.current) formDateRevision.current.value = newDate.toISOString().split('T')[0];
         }
     }
 
@@ -174,11 +190,15 @@ export function UpdateFinancialProductContainer() {
                             elementRef={formLogo}
                         />
                         <Input
+                            type="date"
                             id="date_release"
                             labelText="Fecha de liberación"
                             elementRef={formDateRelease}
+                            onChange={updateRevisionDate}
                         />
                         <Input
+                            disabled
+                            type="date"
                             id="date_revision"
                             labelText="Fecha de Revisión"
                             elementRef={formDateRevision}

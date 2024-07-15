@@ -9,10 +9,12 @@ type ValidationRulesType = {
 type InputProps = {
     disabled?: boolean,
     id: string,
+    type?: string,
     labelText: string,
     placeholder?: string,
     validationRules?: ValidationRulesType[]
     elementRef?: LegacyRef<HTMLInputElement>
+    onChange?: (value:string)=>void
 }
 
 export type InputHandle = {
@@ -29,6 +31,8 @@ export const Input = forwardRef<InputHandle, InputProps>(({
     validationRules,
     elementRef,
     disabled,
+    type='text',
+    onChange,
 }, ref) => {
     const [errorText, setErrorText] = useState<string | null>();
 
@@ -48,7 +52,7 @@ export const Input = forwardRef<InputHandle, InputProps>(({
                 disabled={disabled}
                 id={id}
                 ref={elementRef}
-                type="text"
+                type={type}
                 className={`input ${errorText ? 'inputError' : ''}`}
                 placeholder={placeholder}
                 onChange={(evt) => {
@@ -56,6 +60,7 @@ export const Input = forwardRef<InputHandle, InputProps>(({
                         (rule) => !rule.action(evt?.target?.value)
                     )?.errorText;
                     setErrorText(errorText ?? null);
+                    if(onChange) onChange(evt.target.value);
                 }}
             >
             </input>

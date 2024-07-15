@@ -16,6 +16,8 @@ describe('Input Component', () => {
           }
         ]}
         disabled={false}
+        type='text'
+        onChange={()=>{}}
       />
     );
     const input = getByLabelText('ID');
