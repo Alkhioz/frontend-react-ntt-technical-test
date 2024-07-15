@@ -86,7 +86,7 @@ export function ListFinancialProductContainer() {
                 >delete</button>
                 <button
                     onClick={() => {
-                        navigate(`/financialproduct/edit/${btoa(row.id)}`);
+                        navigate(`/financialproduct/edit/${encodeURIComponent(btoa(JSON.stringify(row)))}`);
                     }}
                 >Edit</button>
                 </>

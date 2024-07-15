@@ -8,7 +8,7 @@ export function FinancialProductRoute() {
         <Routes>
             <Route path='financialproduct' element={<ListFinancialProductContainer />} />
             <Route path='financialproduct/add' element={<UpdateFinancialProductContainer />} />
-            <Route path='financialproduct/edit/:id' element={<UpdateFinancialProductContainer />} />
+            <Route path='financialproduct/edit/:body' element={<UpdateFinancialProductContainer />} />
             <Route
                 path="*"
                 element={<Navigate to="financialproduct" replace />}

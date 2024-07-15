@@ -4,18 +4,30 @@ import './updateFinancialProduct.container.css';
 import { Card } from "../components/card/card.component";
 import { Input, InputHandle } from "../components/input/input.component";
 import { minMaxLength } from "../../utilities/minMaxLength.utility";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Button } from "../components/button/button.component";
 import { useAddProduct } from "../hooks/useAddProduct.hook";
 import { FinancialProduct } from "../domain/financialProduct.entity";
+import { useUpdateProduct } from "../hooks/useUpdateProduct.hook";
 
 export function UpdateFinancialProductContainer() {
     const navigate = useNavigate();
-    const { id } = useParams<{
-        id: string,
+    const { body } = useParams<{
+        body: string,
     }>();
+    const decodedBody = useMemo(()=>{
+        if(!body) return null;
+        try{
+            const json = JSON.parse(atob(body));
+            return json;
+        }catch(error){
+            return null
+        }
+    }, [body]);
+    
+    const decodedId = decodedBody ? decodedBody.id : null;
     const { add, loading, error } = useAddProduct();
-    const decodedId = id ? atob(id) : null;
+    const { update, loading: updateLoading, error: updateError } = useUpdateProduct();
     const formId = useRef<HTMLInputElement>(null);
     const formName = useRef<HTMLInputElement>(null);
     const formDescription = useRef<HTMLInputElement>(null);
@@ -25,10 +37,15 @@ export function UpdateFinancialProductContainer() {
     const inputRefs = useRef<(InputHandle | null)[]>([]);
 
     useEffect(()=>{
-        if(decodedId && formId.current) {
-            formId.current.value = decodedId;
+        if(decodedBody) {
+            if(formId.current) formId.current.value = decodedBody.id;
+            if(formName.current) formName.current.value = decodedBody.name;
+            if(formDescription.current) formDescription.current.value = decodedBody.description;
+            if(formLogo.current) formLogo.current.value = decodedBody.logo;
+            if(formDateRelease.current) formDateRelease.current.value = decodedBody.date_release;
+            if(formDateRevision.current) formDateRevision.current.value = decodedBody.date_revision;
         }
-    }, [decodedId, formId.current]);
+    }, [decodedBody]);
 
     const resetForm = () => {
         if (formId.current && !decodedId) formId.current.value = '';
@@ -63,8 +80,13 @@ export function UpdateFinancialProductContainer() {
             date_release: dateRelease,
             date_revision: dateRevision,
         } as FinancialProduct;
-        await add(body);
-        if(!loading && !error) navigate('/financialproduct');
+        if(isEditing){
+            await update(body);
+        }else{
+            await add(body);
+        }
+        resetForm();
+        if(!loading && !error && !updateLoading && !updateError) navigate('/financialproduct');
     }
 
     const isEditing = !!decodedId;
@@ -150,7 +172,7 @@ export function UpdateFinancialProductContainer() {
                     <div className="formButtonContainer">
                         <div className="formButton">
                             <Button
-                                disabled={loading}
+                                disabled={loading || updateLoading}
                                 variant="secondary"
                                 onClick={resetForm}
                             >
@@ -159,7 +181,7 @@ export function UpdateFinancialProductContainer() {
                         </div>
                         <div className="formButton">
                             <Button
-                                disabled={loading}
+                                disabled={loading || updateLoading}
                                 variant="primary"
                                 onClick={sendForm}
                             >

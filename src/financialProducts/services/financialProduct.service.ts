@@ -28,11 +28,23 @@ class ApiService {
         return data;
     }
 
-    
     public async addProduct(body: FinancialProduct) {
         const {data} =  await this.request(`/bp/products`, {
             method: 'post',
             body: JSON.stringify(body),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        return data;
+    }
+
+    
+    public async updateProduct(body: FinancialProduct) {
+        const {id, ...rest} = body;
+        const {data} =  await this.request(`/bp/products/${id}`, {
+            method: 'put',
+            body: JSON.stringify(rest),
             headers: {
                 'Content-Type': 'application/json'
             }
