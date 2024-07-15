@@ -52,25 +52,25 @@ function TableBody<T extends DataType<T>>({ data, theme }: { data: T[], theme: T
     return (
         <tbody>
             {
-                data?.map((elm:T, idx) => (
+                data?.map((elm: T, idx) => (
                     <tr key={idx}>
                         {
                             theme?.map((tm, idx2) => {
                                 if ('key' in tm) {
                                     return (
                                         <td
-                                            className={'tableBodyItem'}
+                                            className={`tableBodyItem ${elm[tm.key as keys<T>] === '' ? 'emptyElement' : ''}`}
                                             key={idx2}
                                         >
                                             {
-                                                elm[tm.key as keys<T>]
+                                                elm[tm.key as keys<T>] === ''
                                             }
                                         </td>
                                     );
                                 }
                                 return (
                                     <td
-                                        className={'tableBodyItem'}
+                                        className={`tableBodyItem ${ (tm as RenderBodyType<T>).render(elm) === '' ? 'emptyElement' : ''}`}
                                         key={idx2}
                                     >
                                         {

@@ -30,6 +30,16 @@ function Dropdown(props: DropDownProps) {
     )
 }
 
+
+const emptyFinancialProducts: FinancialProduct[] = Array(5).fill({
+    id: '',
+    name: '',
+    description: '',
+    logo: '',
+    date_release: '',
+    date_revision: '',
+});
+
 export function ListFinancialProductContainer() {
     const navigate = useNavigate();
     const {
@@ -72,7 +82,7 @@ export function ListFinancialProductContainer() {
                 </div>
             )
             ,
-            render: (row: FinancialProduct) => <>{row.description}</>,
+            render: (row: FinancialProduct) => row.description,
         },
         {
             display: (
@@ -82,7 +92,7 @@ export function ListFinancialProductContainer() {
                 </div>
             )
             ,
-            render: (row: FinancialProduct) => <>{row.date_release}</>,
+            render: (row: FinancialProduct) => row.date_release,
         },
         {
             display: (
@@ -92,27 +102,29 @@ export function ListFinancialProductContainer() {
                 </div>
             )
             ,
-            render: (row: FinancialProduct) => <>{row.date_revision}</>,
+            render: (row: FinancialProduct) => row.date_revision,
         },
         {
             display: <></>,
             render: (row: FinancialProduct) => (
-                <>
-                    <Dropdown>
-                        <button
-                            className="contextMenuDeleteButton"
-                            onClick={() => {
-                                handleDelete(row);
-                            }}
-                        >delete</button>
-                        <button
-                            className="contextMenuEditButton"
-                            onClick={() => {
-                                navigate(`/financialproduct/edit/${encodeURIComponent(btoa(JSON.stringify(row)))}`);
-                            }}
-                        >Edit</button>
-                    </Dropdown>
-                </>
+                row?.id === ''
+                    ? '' :
+                    <>
+                        <Dropdown>
+                            <button
+                                className="contextMenuDeleteButton"
+                                onClick={() => {
+                                    handleDelete(row);
+                                }}
+                            >delete</button>
+                            <button
+                                className="contextMenuEditButton"
+                                onClick={() => {
+                                    navigate(`/financialproduct/edit/${encodeURIComponent(btoa(JSON.stringify(row)))}`);
+                                }}
+                            >Edit</button>
+                        </Dropdown>
+                    </>
             ),
         },
     ];
@@ -137,7 +149,7 @@ export function ListFinancialProductContainer() {
                                     </Button>
                                 )
                             }}
-                            data={data}
+                            data={data?.length > 0 ? data : emptyFinancialProducts}
                         />
                         : null
                 }
