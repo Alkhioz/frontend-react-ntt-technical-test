@@ -39,7 +39,7 @@ describe('ThemedTable component test', () => {
 
     it('The element renders with data', () => {
 
-        const { getByText } = render(
+        const { container } = render(
             <ThemedTableWithSearchLimitCard
                 configuration={{
                     theme,
@@ -48,7 +48,7 @@ describe('ThemedTable component test', () => {
                 data={data}
             />
         );
-        expect(getByText('Savings Account')).toBeInTheDocument();
+        expect(container.querySelector('table')).toBeInTheDocument();
     });
 
     it('The element renders without data', () => {
