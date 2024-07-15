@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Header } from "../components/header/header.component";
 import './updateFinancialProduct.container.css';
 import { Card } from "../components/card/card.component";
@@ -6,11 +6,15 @@ import { Input, InputHandle } from "../components/input/input.component";
 import { minMaxLength } from "../../utilities/minMaxLength.utility";
 import { useEffect, useRef } from "react";
 import { Button } from "../components/button/button.component";
+import { useAddProduct } from "../hooks/useAddProduct.hook";
+import { FinancialProduct } from "../domain/financialProduct.entity";
 
 export function UpdateFinancialProductContainer() {
+    const navigate = useNavigate();
     const { id } = useParams<{
         id: string,
     }>();
+    const { add, loading, error } = useAddProduct();
     const decodedId = id ? atob(id) : null;
     const formId = useRef<HTMLInputElement>(null);
     const formName = useRef<HTMLInputElement>(null);
@@ -38,7 +42,7 @@ export function UpdateFinancialProductContainer() {
         });
     }
 
-    const sendForm = () => {
+    const sendForm = async () => {
         const hasErrors = inputRefs.current.some(ref => {
             if (ref) return ref.hasError();
             return false;
@@ -51,6 +55,16 @@ export function UpdateFinancialProductContainer() {
         const dateRelease = formDateRelease.current?.value;
         const dateRevision = formDateRevision.current?.value;
         if (!id || !name || !description || !logo || !dateRelease || !dateRevision) return false;
+        const body = {
+            id: id,
+            name: name,
+            description: description,
+            logo: logo,
+            date_release: dateRelease,
+            date_revision: dateRevision,
+        } as FinancialProduct;
+        await add(body);
+        if(!loading && !error) navigate('/financialproduct');
     }
 
     const isEditing = !!decodedId;
@@ -136,6 +150,7 @@ export function UpdateFinancialProductContainer() {
                     <div className="formButtonContainer">
                         <div className="formButton">
                             <Button
+                                disabled={loading}
                                 variant="secondary"
                                 onClick={resetForm}
                             >
@@ -144,6 +159,7 @@ export function UpdateFinancialProductContainer() {
                         </div>
                         <div className="formButton">
                             <Button
+                                disabled={loading}
                                 variant="primary"
                                 onClick={sendForm}
                             >

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { financialProductsImpl } from "../services/getProducts.service";
+import { financialProductsImpl } from "../services/financialProduct.service";
 import { FinancialProduct } from "../domain/financialProduct.entity";
 
 export function useListProducts() {

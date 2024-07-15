@@ -21,9 +21,21 @@ class ApiService {
         return data;
     }
 
-    public async deleteProduct(id:string):Promise<FinancialProduct[]> {
+    public async deleteProduct(id:string) {
         const {data} =  await this.request(`/bp/products/${id}`, {
             method: 'delete',
+        });
+        return data;
+    }
+
+    
+    public async addProduct(body: FinancialProduct) {
+        const {data} =  await this.request(`/bp/products`, {
+            method: 'post',
+            body: JSON.stringify(body),
+            headers: {
+                'Content-Type': 'application/json'
+            }
         });
         return data;
     }
