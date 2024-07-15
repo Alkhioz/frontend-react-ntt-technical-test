@@ -1,8 +1,22 @@
+.logoContainer {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto;
+    justify-content: center;
+}
+
 .logo {
+    min-width: 60px;
+    max-width: 60px;
     aspect-ratio: 1 / 1;
     border-radius: 100%;
     overflow: hidden;
     background-color: var(--color-alternative-2);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
 }
 
 .logoImage {
