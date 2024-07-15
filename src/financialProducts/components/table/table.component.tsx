@@ -63,7 +63,7 @@ function TableBody<T extends DataType<T>>({ data, theme }: { data: T[], theme: T
                                             key={idx2}
                                         >
                                             {
-                                                elm[tm.key as keys<T>] === ''
+                                                elm[tm.key as keys<T>]
                                             }
                                         </td>
                                     );
