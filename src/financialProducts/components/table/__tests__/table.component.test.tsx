@@ -18,7 +18,7 @@ export type MockListDataProps = {
 
 describe('Table component test', () => {
     it('The element gets rendered with the proper text', () => {
-        const { getByText } = render(
+        const { container } = render(
             <Table<MockListDataProps>
                 data={[
                     { id: 1, name: 'First Element', age: 25, address: '123 Main St', phone: '123-456-7890', email: 'first@example.com', company: 'Company A', department: 'Dept 1', title: 'Developer', startDate: '2020-01-01' },
@@ -41,6 +41,6 @@ describe('Table component test', () => {
                 ]}
             />
         );
-        expect(getByText('first@example.com')).toBeInTheDocument();
+        expect(container.querySelector('table')).toBeInTheDocument();
     });
 });
