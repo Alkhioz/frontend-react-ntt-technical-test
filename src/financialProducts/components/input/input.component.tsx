@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { forwardRef, LegacyRef, useImperativeHandle, useState } from "react";
 import "./input.component.css";
 
 type ValidationRulesType = {
@@ -7,24 +7,41 @@ type ValidationRulesType = {
 }
 
 type InputProps = {
+    disabled?: boolean,
     id: string,
     labelText: string,
     placeholder?: string,
     validationRules?: ValidationRulesType[]
+    elementRef?: LegacyRef<HTMLInputElement>
 }
 
-export function Input({
+export type InputHandle = {
+    resetError: () => void;
+    hasError: () => boolean;
+};
+
+export const Input = forwardRef<InputHandle, InputProps>(({
     id,
     labelText,
     placeholder,
     validationRules,
-}: InputProps) {
+    elementRef,
+    disabled,
+}, ref) => {
     const [errorText, setErrorText] = useState<string | null>();
+
+    useImperativeHandle(ref, () => ({
+        resetError: () => setErrorText(null),
+        hasError: () => !!errorText,
+    }));
+
     return (
-        <div className="inputContainer">
+        <div className={`inputContainer ${disabled ? 'disabledInput' : ''}`}>
             <label htmlFor={id}>{labelText}</label>
             <input
+                disabled={disabled}
                 id={id}
+                ref={elementRef}
                 type="text"
                 className={`input ${errorText ? 'inputError' : ''}`}
                 placeholder={placeholder}
@@ -41,4 +58,4 @@ export function Input({
             }
         </div>
     );
-}
+});

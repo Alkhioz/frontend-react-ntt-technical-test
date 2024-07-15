@@ -3,4 +3,51 @@
     width: 100%;
     height: 100%;
     display: grid;
+    grid-template-rows: auto 1fr;
+    justify-items: center;
+}
+
+.formContainer {
+    width: 100%;
+    max-width: 900px;
+    padding: 4rem;
+}
+
+.form-title{
+    text-align: center;
+    border-bottom: 1px solid black;
+    padding-bottom: 2rem;
+}
+
+.form-elements {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+    gap: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.formButtonContainer {
+    padding: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4rem;
+    justify-content: center;
+}
+
+.formButton {
+    width: 150px;
+}
+
+@media (width <= 600px) {
+    .formContainer {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .formButton {
+        width: 100%;
+    }
+    .formButtonContainer {
+        gap: 1rem;
+    }
 }
