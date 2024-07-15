@@ -45,8 +45,14 @@ export function UpdateFinancialProductContainer() {
             if (formName.current) formName.current.value = decodedBody.name;
             if (formDescription.current) formDescription.current.value = decodedBody.description;
             if (formLogo.current) formLogo.current.value = decodedBody.logo;
-            if (formDateRelease.current) formDateRelease.current.value = decodedBody.date_release;
-            if (formDateRevision.current) formDateRevision.current.value = decodedBody.date_revision;
+            if (formDateRelease.current) {
+                const date = new Date(decodedBody.date_release).toISOString().split('T')[0];
+                formDateRelease.current.value = date;
+            }
+            if (formDateRevision.current) {
+                const date = new Date(decodedBody.date_revision).toISOString().split('T')[0];
+                formDateRevision.current.value = date;
+            }
         }
     }, [decodedBody]);
 
